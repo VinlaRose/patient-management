@@ -1,23 +1,53 @@
 import logo from './logo.svg';
 import './App.css';
+import { Route, Routes } from 'react-router';
+import Income from './Page/Income';
+import Expense from './Page/Expense';
+import Savings from './Page/Savings';
+import { Report } from './Page/Report';
+import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchExpense, fetchIncome, fetchSavings } from './redux/actions';
 
 function App() {
+const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchExpense());
+    dispatch(fetchIncome());
+    dispatch(fetchSavings());
+  },[dispatch])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <nav>
+            <ul>
+              <li>
+                
+                <Link to="/income">Income</Link>
+              </li>
+              <li>
+                <Link to="/expenses">Expense</Link>
+              </li>
+              <li>
+                <Link to="/savings">Savings</Link>
+              </li>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+            </ul>
+          </nav>
+          
+      <Routes>
+        <Route path="/income" element={<Income/>} />
+        <Route path="/expenses" element={<Expense/>} />
+        <Route path="/savings" element={<Savings/>} />
+        <Route path="/" element={<Report/>} />
+        
+        
+      </Routes>
     </div>
   );
 }
