@@ -1,218 +1,154 @@
+export const fetchPatients = () => async (dispatch) => {
+  try {
+    const response = await fetch('https://patient-management-system.vinlarose.repl.co/patients');
+    const data = await response.json();
+    console.log(data)
+    dispatch({ type: 'FETCH_PATIENTS_SUCCESS', payload: data });
+  } catch (error) {
+    console.error('Error fetching patient data:', error);
+    dispatch({ type: 'FETCH_PATIENTS_FAILURE' });
+  }
+};
 
-export const fetchIncome = () => async (dispatch) => {
-    try {
-      //   dispatch({ type: 'FETCH_DATA_LOADING' })
-      const response = await fetch(
-        'https://expense-tracker.vinlarose.repl.co/income'
-      );
-      const data = await response.json();
-      console.log(data);
-      dispatch({ type: 'FETCH_INCOME_SUCCESS', payload: data });
-    } catch (error) {
-      console.error('Error fetching income data:', error);
-      dispatch({ type: 'FETCH_INCOME_FAILURE' }); // Correct the action type
-    }
-  };
+export const addPatient = (patientData) => async (dispatch) => {
+  try {
+    const response = await fetch('https://patient-management-system.vinlarose.repl.co/patients', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(patientData),
+    });
 
-  export const addIncome = (incomeData) => async (dispatch) => {
-    try {
-      // Dispatch a loading action if needed
-      // dispatch({ type: 'ADD_INCOME_LOADING' });
-      console.log(incomeData)
-  
-      const response = await fetch('https://expense-tracker.vinlarose.repl.co/income', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(incomeData),
-      });
-  
-      if (!response.ok) {
-        // Handle non-successful response (e.g., status code 4xx or 5xx)
-        throw new Error('Failed to add income');
-      }
-  
-      const addedIncome = await response.json();
-      console.log(addedIncome.data)
-      dispatch({ type: 'ADD_INCOME_SUCCESS', payload: addedIncome.data });
-    } catch (error) {
-      console.error('Error adding income:', error);
-      dispatch({ type: 'ADD_INCOME_FAILURE' });
+    if (!response.ok) {
+      throw new Error('Failed to add patient');
     }
-  };
-  
-  export const deleteIncome = (incomeId) => async (dispatch) => {
-    try {
-      // Dispatch a loading action if needed
-      // dispatch({ type: 'DELETE_INCOME_LOADING' });
-      console.log(incomeId);
-  
-      const response = await fetch(`https://expense-tracker.vinlarose.repl.co/income/${incomeId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (!response.ok) {
-        
-        throw new Error('Failed to delete income');
-      }
-  
-      const deletedIncome = await response.json();
-      console.log(deletedIncome.data);
-      dispatch({ type: 'DELETE_INCOME_SUCCESS', payload: deletedIncome.data });
-    } catch (error) {
-      console.error('Error deleting income:', error);
-      dispatch({ type: 'DELETE_INCOME_FAILURE' });
-    }
-  };
-  
-  
-  
-  
-  
-  
-  export const fetchExpense = () => async (dispatch) => {
-    try {
-      
-      const response = await fetch(
-        'https://expense-tracker.vinlarose.repl.co/expenses'
-      );
-      const data = await response.json();
-      console.log(data);
-      dispatch({ type: 'FETCH_EXPENSE_SUCCESS', payload: data });
-    } catch (error) {
-      console.error('Error fetching expense data:', error);
-      dispatch({ type: 'FETCH_EXPENSE_FAILURE' }); 
-    }
-  };
 
-  export const addExpense = (expenseData) => async (dispatch) => {
-    try {
-   
-      console.log(expenseData)
-  
-      const response = await fetch('https://expense-tracker.vinlarose.repl.co/expenses', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(expenseData),
-      });
-  
-      if (!response.ok) {
-        // Handle non-successful response (e.g., status code 4xx or 5xx)
-        throw new Error('Failed to add expense');
-      }
-  
-      const addedexpense = await response.json();
-      console.log(addedexpense.data)
-      dispatch({ type: 'ADD_EXPENSE_SUCCESS', payload: addedexpense.data });
-    } catch (error) {
-      console.error('Error adding expense:', error);
-      dispatch({ type: 'ADD_EXPENSE_FAILURE' });
-    }
-  };
-  
-  export const deleteExpense = (expenseId) => async (dispatch) => {
-    try {
-      // Dispatch a loading action if needed
-      // dispatch({ type: 'DELETE_EXPENSE_LOADING' });
-      console.log(expenseId);
-  
-      const response = await fetch(`https://expense-tracker.vinlarose.repl.co/expenses/${expenseId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (!response.ok) {
-        
-        throw new Error('Failed to delete expense');
-      }
-  
-      const deletedexpense = await response.json();
-      console.log(deletedexpense.data);
-      dispatch({ type: 'DELETE_EXPENSE_SUCCESS', payload: deletedexpense.data });
-    } catch (error) {
-      console.error('Error deleting expense:', error);
-      dispatch({ type: 'DELETE_EXPENSE_FAILURE' });
-    }
-  };
-  
-  
-  
-  
-  export const fetchSavings = () => async (dispatch) => {
-    try {
-      
-      const response = await fetch(
-        'https://expense-tracker.vinlarose.repl.co/savings'
-      );
-      const data = await response.json();
-      console.log(data);
-      dispatch({ type: 'FETCH_SAVING_SUCCESS', payload: data });
-    } catch (error) {
-      console.error('Error fetching expense data:', error);
-      dispatch({ type: 'FETCH_SAVING_FAILURE' }); 
-    }
-  };
+    const addedPatient = await response.json();
+    
+    dispatch({ type: 'ADD_PATIENT_SUCCESS', payload: addedPatient.data });
+  } catch (error) {
+    console.error('Error adding patient:', error);
+    dispatch({ type: 'ADD_PATIENT_FAILURE' });
+  }
+};
 
-  export const addSaving = (savingData) => async (dispatch) => {
-    try {
-   
-      console.log(savingData)
-  
-      const response = await fetch('https://expense-tracker.vinlarose.repl.co/savings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(savingData),
-      });
-  
-      if (!response.ok) {
-        // Handle non-successful response (e.g., status code 4xx or 5xx)
-        throw new Error('Failed to add saving');
-      }
-  
-      const addedsaving = await response.json();
-      console.log(addedsaving.data)
-      dispatch({ type: 'ADD_SAVING_SUCCESS', payload: addedsaving.data });
-    } catch (error) {
-      console.error('Error adding saving:', error);
-      dispatch({ type: 'ADD_SAVING_FAILURE' });
+export const deletePatient = (patientId) => async (dispatch) => {
+  try {
+    const response = await fetch(`https://patient-management-system.vinlarose.repl.co/patients/${patientId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to delete patient');
     }
-  };
-  
-  export const deleteSavings = (savingId) => async (dispatch) => {
-    try {
-   
-      console.log(savingId);
-  
-      const response = await fetch(`https://expense-tracker.vinlarose.repl.co/savings/${savingId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (!response.ok) {
-        
-        throw new Error('Failed to delete saving');
-      }
-  
-      const deletedsaving = await response.json();
-      console.log(deletedsaving.data);
-      dispatch({ type: 'DELETE_SAVING_SUCCESS', payload: deletedsaving.data });
-    } catch (error) {
-      console.error('Error deleting saving:', error);
-      dispatch({ type: 'DELETE_SAVING_FAILURE' });
+
+    const deletedPatient = await response.json();
+    dispatch({ type: 'DELETE_PATIENT_SUCCESS', payload: deletedPatient.data });
+  } catch (error) {
+    console.error('Error deleting patient:', error);
+    dispatch({ type: 'DELETE_PATIENT_FAILURE' });
+  }
+};
+
+export const editPatient = (patientId, patientData) => async (dispatch) => {
+  try {
+    const response = await fetch(`https://patient-management-system.vinlarose.repl.co/patients/${patientId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(patientData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update patient');
     }
-  };
+
+    const updatedPatient = await response.json();
+    dispatch({ type: 'EDIT_PATIENT_SUCCESS', payload: updatedPatient.data });
+  } catch (error) {
+    console.error('Error updating patient:', error);
+    dispatch({ type: 'EDIT_PATIENT_FAILURE' });
+  }
+};
+export const fetchWards = () => async (dispatch) => {
+  try {
+    const response = await fetch('https://patient-management-system.vinlarose.repl.co/wards');
+    const data = await response.json();
+    dispatch({ type: 'FETCH_WARDS_SUCCESS', payload: data });
+  } catch (error) {
+    console.error('Error fetching ward data:', error);
+    dispatch({ type: 'FETCH_WARDS_FAILURE' });
+  }
+};
+
+export const addWard = (wardData) => async (dispatch) => {
   
-  
- 
+  try {
+    const response = await fetch('https://patient-management-system.vinlarose.repl.co/wards', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(wardData),
+    });
+console.log(response)
+    if (!response.ok) {
+      throw new Error('Failed to add ward');
+    }
+
+    const addedWard = await response.json();
+    console.log(addedWard)
+    dispatch({ type: 'ADD_WARD_SUCCESS', payload: addedWard.data });
+  } catch (error) {
+    console.error('Error adding ward:', error);
+    dispatch({ type: 'ADD_WARD_FAILURE' });
+  }
+};
+
+export const deleteWard = (wardId) => async (dispatch) => {
+  try {
+    const response = await fetch(`https://patient-management-system.vinlarose.repl.co/wards/${wardId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to delete ward');
+    }
+
+    const deletedWard = await response.json();
+    dispatch({ type: 'DELETE_WARD_SUCCESS', payload: deletedWard.data });
+  } catch (error) {
+    console.error('Error deleting ward:', error);
+    dispatch({ type: 'DELETE_WARD_FAILURE' });
+  }
+};
+
+export const editWard = (wardId, wardData) => async (dispatch) => {
+  try {
+    const response = await fetch(`https://patient-management-system.vinlarose.repl.co/wards/${wardId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(wardData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update ward');
+    }
+
+    const updatedWard = await response.json();
+    dispatch({ type: 'EDIT_WARD_SUCCESS', payload: updatedWard.data });
+  } catch (error) {
+    console.error('Error updating ward:', error);
+    dispatch({ type: 'EDIT_WARD_FAILURE' });
+  }
+};

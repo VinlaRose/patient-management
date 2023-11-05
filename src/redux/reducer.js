@@ -1,173 +1,145 @@
 const initialState = {
-    income: [],
-    expenses: [],
-    savings: [],
-    loading: false,
-    error: null,
-  };
-  
-  const financeReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case 'FETCH_INCOME_SUCCESS':
-        return {
-          ...state,
-          income: action.payload,
-          loading: false,
-          error: null,
-        };
-  
-      case 'FETCH_INCOME_FAILURE':
-        return {
-          ...state,
-          loading: false,
-          error: 'Error fetching income data',
-        };
-  
-      case 'FETCH_DATA_LOADING':
-        return {
-          ...state,
-          loading: true,
-        };
-  
-      case 'ADD_INCOME_SUCCESS':
-        return {
-          ...state,
-          income: [...state.income, action.payload],
-          loading: false,
-          error: null,
-        };
-  
-      case 'ADD_INCOME_FAILURE':
-        return {
-          ...state,
-          loading: false,
-          error: 'Error adding income',
-        };
-        
-        case 'DELETE_INCOME_SUCCESS':
-            
-            const updatedIncome = state.income.filter((income) => income._id !== action.payload._id);
-            return {
-              ...state,
-              income: updatedIncome,
-              loading: false,
-              error: null,
-            };
+  patients: [],
+  wards: [],
+  loading: false,
+  error: null,
+};
+
+const patientWardReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'FETCH_PATIENTS_SUCCESS':
+      return {
+        ...state,
+        patients: action.payload.data,
+        loading: false,
+        error: null,
+      };
+
+    case 'FETCH_PATIENTS_FAILURE':
+      return {
+        ...state,
+        loading: false,
+        error: 'Error fetching patient data',
+      };
+
+    case 'ADD_PATIENT_SUCCESS':
       
-          case 'DELETE_INCOME_FAILURE':
-            return {
-              ...state,
-              loading: false,
-              error: 'Error deleting income',
-            };
-  
-            
-            
-            
-            
-            
-            case 'FETCH_EXPENSE_SUCCESS':
-                return {
-                  ...state,
-                  expenses: action.payload,
-                  loading: false,
-                  error: null,
-                };
-          
-              case 'FETCH_EXPENSE_FAILURE':
-                return {
-                  ...state,
-                  loading: false,
-                  error: 'Error fetching expenses data',
-                };
-          
-              case 'ADD_EXPENSE_SUCCESS':
-                return {
-                  ...state,
-                  expenses: [...state.expenses, action.payload],
-                  loading: false,
-                  error: null,
-                };
-          
-              case 'ADD_EXPENSE_FAILURE':
-                return {
-                  ...state,
-                  loading: false,
-                  error: 'Error adding expenses',
-                };
-                
-                case 'DELETE_EXPENSE_SUCCESS':
-                    
-                    const updatedExpense = state.expenses.filter((expenses) => expenses._id !== action.payload._id);
-                    return {
-                      ...state,
-                      expenses: updatedExpense,
-                      loading: false,
-                      error: null,
-                    };
-              
-                  case 'DELETE_EXPENSE_FAILURE':
-                    return {
-                      ...state,
-                      loading: false,
-                      error: 'Error deleting expenses',
-                    };
-                    
-                    
-                    
-                    
-    
-            case 'FETCH_SAVING_SUCCESS':
-                return {
-                  ...state,
-                  savings: action.payload,
-                  loading: false,
-                  error: null,
-                };
-          
-              case 'FETCH_SAVING_FAILURE':
-                return {
-                  ...state,
-                  loading: false,
-                  error: 'Error fetching savings data',
-                };
-          
-              case 'ADD_SAVING_SUCCESS':
-                return {
-                  ...state,
-                  savings: [...state.savings, action.payload],
-                  loading: false,
-                  error: null,
-                };
-          
-              case 'ADD_SAVING_FAILURE':
-                return {
-                  ...state,
-                  loading: false,
-                  error: 'Error adding savings',
-                };
-                
-                case 'DELETE_SAVING_SUCCESS':
-                    
-                    const updateSavings = state.savings.filter((savings) => savings._id !== action.payload._id);
-                    return {
-                      ...state,
-                      savings: updateSavings,
-                      loading: false,
-                      error: null,
-                    };
-              
-                  case 'DELETE_SAVING_FAILURE':
-                    return {
-                      ...state,
-                      loading: false,
-                      error: 'Error deleting savings',
-                    };
-          
-      default:
-        return state;
-    }
-  };
-  
-  export default financeReducer;
-  
+      return {
+        ...state,
+        patients: [...state.patients, action.payload],
+        loading: false,
+        error: null,
+      };
+
+    case 'ADD_PATIENT_FAILURE':
+      return {
+        ...state,
+        loading: false,
+        error: 'Error adding patient',
+      };
+
+    case 'DELETE_PATIENT_SUCCESS':
+      const updatedPatients = state.patients.filter((patient) => patient._id !== action.payload._id);
+      return {
+        ...state,
+        patients: updatedPatients,
+        loading: false,
+        error: null,
+      };
+
+    case 'DELETE_PATIENT_FAILURE':
+      return {
+        ...state,
+        loading: false,
+        error: 'Error deleting patient',
+      };
+
+    case 'EDIT_PATIENT_SUCCESS':
+      const editedPatients = state.patients.map((patient) =>
+        patient._id === action.payload._id ? action.payload : patient
+      );
+      return {
+        ...state,
+        patients: editedPatients,
+        loading: false,
+        error: null,
+      };
+
+    case 'EDIT_PATIENT_FAILURE':
+      return {
+        ...state,
+        loading: false,
+        error: 'Error updating patient',
+      };
+
+    case 'FETCH_WARDS_SUCCESS':
+      return {
+        ...state,
+        wards: action.payload.data,
+        loading: false,
+        error: null,
+      };
+
+    case 'FETCH_WARDS_FAILURE':
+      return {
+        ...state,
+        loading: false,
+        error: 'Error fetching ward data',
+      };
+
+    case 'ADD_WARD_SUCCESS':
+      
+      return {
+        ...state,
+        wards: [...state.wards, action.payload],
+        loading: false,
+        error: null,
+      };
+
+    case 'ADD_WARD_FAILURE':
+      return {
+        ...state,
+        loading: false,
+        error: 'Error adding ward',
+      };
+
+    case 'DELETE_WARD_SUCCESS':
+      const updatedWards = state.wards.filter((ward) => ward._id !== action.payload._id);
+      return {
+        ...state,
+        wards: updatedWards,
+        loading: false,
+        error: null,
+      };
+
+    case 'DELETE_WARD_FAILURE':
+      return {
+        ...state,
+        loading: false,
+        error: 'Error deleting ward',
+      };
+
+    case 'EDIT_WARD_SUCCESS':
+      const editedWards = state.wards.map((ward) =>
+        ward._id === action.payload._id ? action.payload : ward
+      );
+      return {
+        ...state,
+        wards: editedWards,
+        loading: false,
+        error: null,
+      };
+
+    case 'EDIT_WARD_FAILURE':
+      return {
+        ...state,
+        loading: false,
+        error: 'Error updating ward',
+      };
+
+    default:
+      return state;
+  }
+};
+
+export default patientWardReducer;
