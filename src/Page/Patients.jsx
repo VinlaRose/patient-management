@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPatient, deletePatient, fetchPatients } from '../redux/actions'; 
 import AddPatientModal from '../components/AddPatintModal';
+import EditPatientModal from '../components/EditPatientModal';
 
 export const PatientsPage = () => {
   const dispatch = useDispatch()
@@ -9,6 +10,7 @@ export const PatientsPage = () => {
   console.log(patients)
   const wards = useSelector(state => state.wards)
   const [openModal, setOpenModal] = useState(false);
+ const [openEditModal, setEditModal] = useState(false)
 const openAddPatientModal = () => {
   setOpenModal(true)
 }
@@ -16,9 +18,12 @@ const closeAddPatientModal = () => {
   setOpenModal(false)
 }
 
-const handleEdit = (patient) => {
- setOpenModal(true)
+const closeEditPatientModal = () => {
+  setEditModal(false)
+}
 
+const handleEdit = () => {
+ setEditModal(true)
 };
 
 const handleDelete = (patient) => {
@@ -32,7 +37,8 @@ useEffect(() => {
     <div>
       <h3>Patient List</h3>
       <button onClick={openAddPatientModal}>Add New Patient</button>
-     <AddPatientModal openModal={openModal} onRequestClose={closeAddPatientModal}/>
+     <AddPatientModal openModal={openModal} onRequestClose={closeAddPatientModal} />
+     <EditPatientModal openEditModal={openEditModal} onRequestClose={closeEditPatientModal} />
      <table className="wards-table">
         <thead>
           <tr>

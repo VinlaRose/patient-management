@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPatient, fetchPatients, fetchWards } from '../redux/actions'; 
 
-function AddPatientModal({openModal, onRequestClose}) {
+function EditPatientModal({openModal, onRequestClose}) {
   const wards = useSelector(state => state.wards)
     const dispatch = useDispatch();
    
@@ -91,6 +91,8 @@ function AddPatientModal({openModal, onRequestClose}) {
     }, [dispatch]);
 
     
+  
+
 
     return (
         <div>
@@ -168,7 +170,7 @@ function AddPatientModal({openModal, onRequestClose}) {
               </label>
               <br />
               <div>
-              <button type="submit">Add Patient</button>
+              <button type="submit">Edit Patient</button>
               <button className="close-button" onClick={onRequestClose}>Close</button>
           
               </div>
@@ -185,5 +187,5 @@ function AddPatientModal({openModal, onRequestClose}) {
     );
   }
   
-  export default AddPatientModal;
+  export default EditPatientModal;
   
